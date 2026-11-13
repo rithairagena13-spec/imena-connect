@@ -7,7 +7,7 @@ import OpportunityFilters from "./components/OpportunityFilters"
 import OpportunityList from "./components/OpportunityList"
 
 export default function App() {
-  const [opportunities] = useState(seedOpportunities)
+  const [opportunities, setOpportunities] = useState(seedOpportunities)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [availableOnly, setAvailableOnly] = useState(false)
