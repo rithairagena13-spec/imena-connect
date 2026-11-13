@@ -1,5 +1,4 @@
-
-function App() {
+export default function App() {
   return (
     <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center">
       <h1 className="text-4xl font-bold text-[#263D35]">
@@ -8,5 +7,3 @@ function App() {
     </div>
   )
 }
-
-export default App
