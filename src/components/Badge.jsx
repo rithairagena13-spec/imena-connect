@@ -1,5 +1,4 @@
-
-function Badge({
+export default function Badge({
   children,
   variant = "default",
   className = "",
@@ -20,5 +19,3 @@ function Badge({
     </span>
   )
 }
-
-export default Badge
