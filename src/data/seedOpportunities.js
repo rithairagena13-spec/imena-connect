@@ -1,5 +1,5 @@
 
-const seedOpportunities = [
+export default [
   {
     id: "opp-001",
     title: "Traditional Basket Weaving Workshop",
@@ -181,5 +181,3 @@ const seedOpportunities = [
     featured: false,
   },
 ]
-
-export default seedOpportunities
