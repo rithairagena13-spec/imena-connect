@@ -1,8 +1,7 @@
-
 import Badge from "./Badge"
 import Button from "./Button"
 
-function OpportunityCard({ opportunity, isSaved, onSave }) {
+export default function OpportunityCard({ opportunity, isSaved, onSave }) {
   const {
     title,
     category,
@@ -67,5 +66,3 @@ function OpportunityCard({ opportunity, isSaved, onSave }) {
     </article>
   )
 }
-
-export default OpportunityCard
