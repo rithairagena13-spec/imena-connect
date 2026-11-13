@@ -1,7 +1,6 @@
-
 import OpportunityCard from "./OpportunityCard"
 
-function OpportunityList({
+export default function OpportunityList({
   opportunities = [],
   savedIds = [],
   onSave,
@@ -12,6 +11,7 @@ function OpportunityList({
         <h3 className="text-xl font-semibold text-[#263D35]">
           No opportunities found
         </h3>
+
         <p className="mt-2 text-sm text-[#77776D]">
           Try changing your search or filters to discover more opportunities.
         </p>
@@ -32,5 +32,3 @@ function OpportunityList({
     </div>
   )
 }
-
-export default OpportunityList
