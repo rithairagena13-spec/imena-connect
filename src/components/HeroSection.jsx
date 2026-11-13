@@ -3,17 +3,17 @@ import { useEffect, useState } from "react"
 
 const heroImages = [
   {
-    src: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200",
+    src: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1600",
     alt: "People connecting at a community gathering",
     label: "Community & Culture",
   },
   {
-    src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200",
+    src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600",
     alt: "Students learning together",
     label: "Learning & Education",
   },
   {
-    src: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200",
+    src: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600",
     alt: "People collaborating on a project",
     label: "Ideas & Innovation",
   },
@@ -46,13 +46,14 @@ export default function HeroSection() {
             <img
               src={image.src}
               alt={image.alt}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover brightness-110 contrast-110 saturate-110"
             />
           </div>
         ))}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F5F2E9] via-[#F5F2E9]/80 to-transparent lg:via-[#F5F2E9]/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#F5F2E9]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F5F2E9] via-[#F5F2E9]/65 to-transparent lg:via-[#F5F2E9]/35" />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-[#F5F2E9]/10 to-transparent" />
       </div>
 
       <div className="relative z-10 mx-auto flex max-w-7xl items-center">
