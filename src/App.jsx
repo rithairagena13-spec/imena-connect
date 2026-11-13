@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar"
 import HeroSection from "./components/HeroSection"
 import OpportunityFilters from "./components/OpportunityFilters"
 import OpportunityList from "./components/OpportunityList"
+import AddOpportunityForm from "./components/AddOpportunityForm"
+import Button from "./components/Button"
 
 export default function App() {
   const [opportunities, setOpportunities] = useState(seedOpportunities)
@@ -14,6 +16,7 @@ export default function App() {
   const [savedOnly, setSavedOnly] = useState(false)
   const [savedIds, setSavedIds] = useState([])
   const [sortBy, setSortBy] = useState("date")
+  const [showAddForm, setShowAddForm] = useState(false)
 
   const categories = [
     ...new Set(opportunities.map((opportunity) => opportunity.category)),
@@ -44,19 +47,17 @@ export default function App() {
     )
   })
 
-  const sortedOpportunities = [...filteredOpportunities].sort(
-    (a, b) => {
-      if (sortBy === "title") {
-        return a.title.localeCompare(b.title)
-      }
-
-      if (sortBy === "seats") {
-        return b.availableSeats - a.availableSeats
-      }
-
-      return new Date(a.date) - new Date(b.date)
+  const sortedOpportunities = [...filteredOpportunities].sort((a, b) => {
+    if (sortBy === "title") {
+      return a.title.localeCompare(b.title)
     }
-  )
+
+    if (sortBy === "seats") {
+      return b.availableSeats - a.availableSeats
+    }
+
+    return new Date(a.date) - new Date(b.date)
+  })
 
   function handleSave(opportunityId) {
     setSavedIds((currentSavedIds) =>
@@ -64,6 +65,20 @@ export default function App() {
         ? currentSavedIds.filter((id) => id !== opportunityId)
         : [...currentSavedIds, opportunityId]
     )
+  }
+
+  function handleAddOpportunity(newOpportunity) {
+    setOpportunities((currentOpportunities) => [
+      ...currentOpportunities,
+      newOpportunity,
+    ])
+
+    setSearchTerm("")
+    setSelectedCategory("All")
+    setAvailableOnly(false)
+    setSavedOnly(false)
+    setSortBy("date")
+    setShowAddForm(false)
   }
 
   function handleResetFilters() {
@@ -86,6 +101,20 @@ export default function App() {
               These are illustrative sample opportunities created
               for demonstration. They are not confirmed real events.
             </p>
+          </div>
+
+          <div className="mb-8">
+            {showAddForm ? (
+              <AddOpportunityForm
+                categories={categories}
+                onAdd={handleAddOpportunity}
+                onCancel={() => setShowAddForm(false)}
+              />
+            ) : (
+              <Button onClick={() => setShowAddForm(true)}>
+                Add an opportunity
+              </Button>
+            )}
           </div>
 
           <OpportunityFilters
