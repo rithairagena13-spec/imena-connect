@@ -1,92 +1,86 @@
-
-import { useState } from "react"
-import seedOpportunities from "./data/seedOpportunities"
-import Navbar from "./components/Navbar"
-import HeroSection from "./components/HeroSection"
-import OpportunityFilters from "./components/OpportunityFilters"
-import OpportunityList from "./components/OpportunityList"
-import AddOpportunityForm from "./components/AddOpportunityForm"
-import Button from "./components/Button"
+import { useState } from "react";
+import seedOpportunities from "./data/seedOpportunities";
+import Navbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import OpportunityFilters from "./components/OpportunityFilters";
+import OpportunityList from "./components/OpportunityList";
+import AddOpportunityForm from "./components/AddOpportunityForm";
+import Button from "./components/Button";
 
 export default function App() {
-  const [opportunities, setOpportunities] = useState(seedOpportunities)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("All")
-  const [availableOnly, setAvailableOnly] = useState(false)
-  const [savedOnly, setSavedOnly] = useState(false)
-  const [savedIds, setSavedIds] = useState([])
-  const [sortBy, setSortBy] = useState("date")
-  const [showAddForm, setShowAddForm] = useState(false)
-
+  const [opportunities, setOpportunities] = useState(seedOpportunities);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [availableOnly, setAvailableOnly] = useState(false);
+  const [savedOnly, setSavedOnly] = useState(false);
+  const [savedIds, setSavedIds] = useState([]);
+  const [sortBy, setSortBy] = useState("date");
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [demoStatus, setDemoStatus] = useState("ready");
   const categories = [
     ...new Set(opportunities.map((opportunity) => opportunity.category)),
-  ]
+  ];
 
   const filteredOpportunities = opportunities.filter((opportunity) => {
-    const searchValue = searchTerm.trim().toLowerCase()
+    const searchValue = searchTerm.trim().toLowerCase();
 
     const matchesSearch =
       opportunity.title.toLowerCase().includes(searchValue) ||
-      opportunity.city.toLowerCase().includes(searchValue)
+      opportunity.city.toLowerCase().includes(searchValue);
 
     const matchesCategory =
-      selectedCategory === "All" ||
-      opportunity.category === selectedCategory
+      selectedCategory === "All" || opportunity.category === selectedCategory;
 
     const matchesAvailability =
-      !availableOnly || opportunity.availableSeats > 0
+      !availableOnly || opportunity.availableSeats > 0;
 
-    const matchesSaved =
-      !savedOnly || savedIds.includes(opportunity.id)
+    const matchesSaved = !savedOnly || savedIds.includes(opportunity.id);
 
     return (
-      matchesSearch &&
-      matchesCategory &&
-      matchesAvailability &&
-      matchesSaved
-    )
-  })
+      matchesSearch && matchesCategory && matchesAvailability && matchesSaved
+    );
+  });
 
   const sortedOpportunities = [...filteredOpportunities].sort((a, b) => {
     if (sortBy === "title") {
-      return a.title.localeCompare(b.title)
+      return a.title.localeCompare(b.title);
     }
 
     if (sortBy === "seats") {
-      return b.availableSeats - a.availableSeats
+      return b.availableSeats - a.availableSeats;
     }
 
-    return new Date(a.date) - new Date(b.date)
-  })
+    return new Date(a.date) - new Date(b.date);
+  });
 
   function handleSave(opportunityId) {
     setSavedIds((currentSavedIds) =>
       currentSavedIds.includes(opportunityId)
         ? currentSavedIds.filter((id) => id !== opportunityId)
-        : [...currentSavedIds, opportunityId]
-    )
+        : [...currentSavedIds, opportunityId],
+    );
   }
 
   function handleAddOpportunity(newOpportunity) {
     setOpportunities((currentOpportunities) => [
       ...currentOpportunities,
       newOpportunity,
-    ])
+    ]);
 
-    setSearchTerm("")
-    setSelectedCategory("All")
-    setAvailableOnly(false)
-    setSavedOnly(false)
-    setSortBy("date")
-    setShowAddForm(false)
+    setSearchTerm("");
+    setSelectedCategory("All");
+    setAvailableOnly(false);
+    setSavedOnly(false);
+    setSortBy("date");
+    setShowAddForm(false);
   }
 
   function handleResetFilters() {
-    setSearchTerm("")
-    setSelectedCategory("All")
-    setAvailableOnly(false)
-    setSavedOnly(false)
-    setSortBy("date")
+    setSearchTerm("");
+    setSelectedCategory("All");
+    setAvailableOnly(false);
+    setSavedOnly(false);
+    setSortBy("date");
   }
 
   return (
@@ -98,8 +92,8 @@ export default function App() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-6 rounded-xl border border-[#E9E2D4] bg-white px-5 py-4">
             <p className="text-sm text-[#77776D]">
-              These are illustrative sample opportunities created
-              for demonstration. They are not confirmed real events.
+              These are illustrative sample opportunities created for
+              demonstration. They are not confirmed real events.
             </p>
           </div>
 
@@ -137,7 +131,28 @@ export default function App() {
               <h2 className="text-2xl font-semibold text-[#263D35]">
                 Explore opportunities
               </h2>
+              <div className="mb-6 flex flex-wrap gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setDemoStatus("ready")}
+                >
+                  Ready
+                </Button>
 
+                <Button
+                  variant="outline"
+                  onClick={() => setDemoStatus("loading")}
+                >
+                  Demo loading
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={() => setDemoStatus("error")}
+                >
+                  Demo error
+                </Button>
+              </div>
               <p className="text-sm text-[#77776D]">
                 {sortedOpportunities.length} opportunities found
                 <span className="mx-2">|</span>
@@ -145,14 +160,31 @@ export default function App() {
               </p>
             </div>
 
-            <OpportunityList
-              opportunities={sortedOpportunities}
-              savedIds={savedIds}
-              onSave={handleSave}
-            />
+            {demoStatus === "loading" ? (
+              <div className="rounded-2xl bg-white p-10 text-center">
+                <p className="text-[#263D35]">Loading opportunities...</p>
+              </div>
+            ) : demoStatus === "error" ? (
+              <div
+                role="alert"
+                className="rounded-2xl bg-white p-10 text-center">
+                <p className="font-semibold text-red-700">
+                  Something went wrong.
+                </p>
+                <p className="mt-2 text-sm text-[#77776D]">
+                  This is a demonstration error. Please return to Ready.
+                </p>
+              </div>
+            ) : (
+              <OpportunityList
+                opportunities={sortedOpportunities}
+                savedIds={savedIds}
+                onSave={handleSave}
+              />
+            )}
           </section>
         </div>
       </main>
     </>
-  )
+  );
 }
