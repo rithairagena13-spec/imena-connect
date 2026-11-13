@@ -180,6 +180,7 @@ export default function App() {
                 opportunities={sortedOpportunities}
                 savedIds={savedIds}
                 onSave={handleSave}
+                onReset={handleResetFilters}
               />
             )}
           </section>
